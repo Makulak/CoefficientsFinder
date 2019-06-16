@@ -98,12 +98,12 @@ namespace CoefficientsFinder.Algorithm
 
         private void CrossoverSingle(Polynomial poly1, Polynomial poly2)
         {
-            int cutPosition = _randomProvider.Next(1, (_degreeOfPolynomial + 1) * sizeof(double) * 8);
+            int cutPosition = _randomProvider.Next((_degreeOfPolynomial + 1) * sizeof(double) * 8);
 
             BitArray bytesOne = poly1.GetAllCoefficientsInBytes();
             BitArray bytesTwo = poly2.GetAllCoefficientsInBytes();
 
-            for (int i = bytesOne.Length-1; i >= cutPosition; i--)
+            for (int i = 0; i < bytesOne.Length; i++)
             {
                 bool bitOne = bytesOne[i];
                 bool bitTwo = bytesTwo[i];

@@ -9,15 +9,18 @@ namespace CoefficientsFinder
         {
             Solver solver = new Solver();
 
-            solver.AddPoint(1,2);
-            solver.AddPoint(2,3);
+            solver.AddPoint(-1,4);
+            solver.AddPoint(0,1);
+            solver.AddPoint(4,9);
 
             solver.SetMinimumRequiredDegreeOfPolynomial();
-            solver.StartPopulationCount = 400;
-            solver.SurvivalCount = 20;
+            solver.StartPopulationCount = 10000;
+            solver.SurvivalCount = 100;
             solver.IterationThreshold = 100000;
+            solver.ExpectedDegreeOfPolynomial = 2;
+            solver.PercentageMutationChance = 10;
             solver.CreatePopulation();
-            solver.PercentageMutationChance = 20;
+            Console.WriteLine("PopulationCreated\n=======================START========================\n");
 
             solver.Solve();
             Console.ReadKey();

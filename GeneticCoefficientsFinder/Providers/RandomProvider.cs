@@ -8,12 +8,17 @@ namespace CoefficientsFinder.Providers
 
         public int Next()
         {
-            return Next(0, 100);
+            return _random.Next(0,100);
         }
 
-        public int Next(int min, int max)
+        public double NextDouble(int min)
         {
-            return _random.Next(min, max);
+            return (_random.NextDouble()*_random.Next(1,100)) + min;
+        }
+
+        public int Next(int max)
+        {
+            return _random.Next(0, max);
         }
     }
 }

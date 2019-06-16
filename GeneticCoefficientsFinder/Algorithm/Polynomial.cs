@@ -53,7 +53,7 @@ namespace CoefficientsFinder.Algorithm
 
             for (int i = 0; i < bytes.Length; i++)
             {
-                if (_randomProvider.Next(0, 100) < percentageChance)
+                if (_randomProvider.Next(100) < percentageChance)
                 {
                     if (bytes.Get(i))
                         bytes[i] = false;
@@ -70,7 +70,7 @@ namespace CoefficientsFinder.Algorithm
             BitArray bytes = new BitArray(0);
 
             for (int i = 0; i < Coefficients.Count; i++)
-                 bytes = bytes.Append(GetCoefficient(i));
+                bytes = bytes.Append(GetCoefficient(i));
 
             return bytes;
         }
@@ -118,11 +118,18 @@ namespace CoefficientsFinder.Algorithm
 
             for (int i = 0; i < _degree + 1; i++)
             {
-                var arr = array.ToByteArray();
+                byte[] coefficientArr = array.ToByteArray().Skip(i * sizeof(double)).Take(sizeof(double)).ToArray();
                 double value = BitConverter.ToDouble(array.ToByteArray(), i * sizeof(double));
 
-                if (double.IsNaN(value))
-                    return;
+                while (double.IsNaN(value))
+                {
+                 //   Console.WriteLine(string.Concat(array.Cast<bool>().Select(Convert.ToByte)));
+                    //Console.WriteLine(coefficientArr.ToBinaryString());
+                    array.Set((i+1)*sizeof(double)*8 - _randomProvider.Next(17)-1, false);
+                    coefficientArr = array.ToByteArray().Skip(i * sizeof(double)).Take(sizeof(double)).ToArray();
+                    value = BitConverter.ToDouble(array.ToByteArray(), i * sizeof(double));
+                }
+
                 Coefficients.Add(value);
             }
         }

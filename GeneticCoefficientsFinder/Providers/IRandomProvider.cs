@@ -3,6 +3,7 @@
     public interface IRandomProvider
     {
         int Next();
-        int Next(int min, int max);
+        int Next(int max);
+        double NextDouble(int min);
     }
 }
