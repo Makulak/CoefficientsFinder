@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using AlgorytmGenetyczny.Extensions;
-using AlgorytmGenetyczny.Providers;
+using CoefficientsFinder.Extensions;
+using CoefficientsFinder.Providers;
 
-namespace AlgorytmGenetyczny.Algorithm
+namespace CoefficientsFinder.Algorithm
 {
     public class Population
     {
@@ -99,20 +100,18 @@ namespace AlgorytmGenetyczny.Algorithm
         {
             int cutPosition = _randomProvider.Next(1, (_degreeOfPolynomial + 1) * sizeof(double) * 8);
 
-            byte[] bytesOne = poly1.GetAllCoefficientsInBytes();
-            byte[] bytesTwo = poly2.GetAllCoefficientsInBytes();
+            BitArray bytesOne = poly1.GetAllCoefficientsInBytes();
+            BitArray bytesTwo = poly2.GetAllCoefficientsInBytes();
 
-            for (int i = 0; i < cutPosition; i++)
+            for (int i = bytesOne.Length-1; i >= cutPosition; i--)
             {
-                int pos = (int)Math.Floor((double)i / sizeof(double));
-
-                bool bitOne = bytesOne[bytesOne.Length - pos - 1].IsBitSet(i%sizeof(double));
-                bool bitTwo = bytesTwo[bytesTwo.Length - pos - 1].IsBitSet(i%sizeof(double));
+                bool bitOne = bytesOne[i];
+                bool bitTwo = bytesTwo[i];
 
                 if (bitOne != bitTwo)
                 {
-                    bytesOne[bytesOne.Length - pos - 1] = bytesOne[bytesOne.Length - pos - 1].ToggleBit(i % sizeof(double));
-                    bytesTwo[bytesTwo.Length - pos - 1] = bytesTwo[bytesTwo.Length - pos - 1].ToggleBit(i % sizeof(double));
+                    bytesOne[i] = bitTwo;
+                    bytesTwo[i] = bitOne;
                 }
             }
 

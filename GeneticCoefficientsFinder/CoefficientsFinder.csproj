@@ -32,6 +32,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Algorithm\Polynomial.cs" />
     <Compile Include="Algorithm\Population.cs" />
+    <Compile Include="Extensions\BitArrayExtensions.cs" />
     <Compile Include="Extensions\ByteExtension.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

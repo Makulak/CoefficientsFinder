@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Authentication.ExtendedProtection;
 using System.Text;
-using AlgorytmGenetyczny.Extensions;
-using AlgorytmGenetyczny.Providers;
+using CoefficientsFinder.Extensions;
+using CoefficientsFinder.Providers;
 
-namespace AlgorytmGenetyczny.Algorithm
+namespace CoefficientsFinder.Algorithm
 {
     public class Polynomial
     {
@@ -18,7 +18,7 @@ namespace AlgorytmGenetyczny.Algorithm
         private int _degree;
         private IRandomProvider _randomProvider;
 
-        public Polynomial(IRandomProvider randomProvider, int degreeOfPolynomial, byte[] coefficients)
+        public Polynomial(IRandomProvider randomProvider, int degreeOfPolynomial, BitArray coefficients)
         {
             if (degreeOfPolynomial < 0)
                 throw new WrongValueException("Degree of polynomial is less than 0");
@@ -49,30 +49,30 @@ namespace AlgorytmGenetyczny.Algorithm
 
         public void Mutate(int percentageChance)
         {
-            byte[] bytes = GetAllCoefficientsInBytes();
+            BitArray bytes = GetAllCoefficientsInBytes();
 
             for (int i = 0; i < bytes.Length; i++)
             {
-                for (int j = 0; j < 8; j++)
+                if (_randomProvider.Next(0, 100) < percentageChance)
                 {
-                    if (_randomProvider.Next(0, 100) < percentageChance)
-                    {
-                        bytes[i] = bytes[i].ToggleBit(j);
-                    }
+                    if (bytes.Get(i))
+                        bytes[i] = false;
+                    else
+                        bytes[i] = true;
                 }
             }
 
             ConvertByteArrayToCoefficients(bytes);
         }
 
-        public byte[] GetAllCoefficientsInBytes()
+        public BitArray GetAllCoefficientsInBytes()
         {
-            List<byte> bytes = new List<byte>();
+            BitArray bytes = new BitArray(0);
 
             for (int i = 0; i < Coefficients.Count; i++)
-                bytes.AddRange(GetCoefficient(i));
+                 bytes = bytes.Append(GetCoefficient(i));
 
-            return bytes.ToArray();
+            return bytes;
         }
 
         public override string ToString()
@@ -107,19 +107,23 @@ namespace AlgorytmGenetyczny.Algorithm
             return result;
         }
 
-        public byte[] GetCoefficient(int degree)
+        public BitArray GetCoefficient(int degree)
         {
-            return BitConverter.GetBytes(Coefficients[degree]);
+            return new BitArray(BitConverter.GetBytes(Coefficients[degree]));
         }
 
-        public void ConvertByteArrayToCoefficients(byte[] array)
+        public void ConvertByteArrayToCoefficients(BitArray array)
         {
             Coefficients.Clear();
 
             for (int i = 0; i < _degree + 1; i++)
             {
-                double value = Math.Round(BitConverter.ToDouble(array, i * sizeof(double)), 3);
-                Coefficients.Add(Math.Round(value,3));
+                var arr = array.ToByteArray();
+                double value = BitConverter.ToDouble(array.ToByteArray(), i * sizeof(double));
+
+                if (double.IsNaN(value))
+                    return;
+                Coefficients.Add(value);
             }
         }
     }

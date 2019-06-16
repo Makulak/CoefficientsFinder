@@ -1,4 +1,4 @@
-﻿namespace AlgorytmGenetyczny.Providers
+﻿namespace CoefficientsFinder.Providers
 {
     public interface IRandomProvider
     {

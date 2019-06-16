@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AlgorytmGenetyczny.Providers
+namespace CoefficientsFinder.Providers
 {
     public class RandomProvider : IRandomProvider
     {

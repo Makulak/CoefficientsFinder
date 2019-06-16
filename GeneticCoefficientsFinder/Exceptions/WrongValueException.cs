@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AlgorytmGenetyczny
+namespace CoefficientsFinder
 {
     public class WrongValueException : Exception
     {

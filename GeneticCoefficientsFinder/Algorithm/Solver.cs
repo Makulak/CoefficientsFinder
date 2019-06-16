@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using AlgorytmGenetyczny.Providers;
+using CoefficientsFinder.Providers;
 
-namespace AlgorytmGenetyczny.Algorithm
+namespace CoefficientsFinder.Algorithm
 {
     public class Solver
     {
@@ -111,7 +109,8 @@ namespace AlgorytmGenetyczny.Algorithm
             for (int i = 0; i < IterationThreshold; i++)
             {
                 Population.CalculateFitness(Points);
-                WriteInfo();
+                if(i%300 == 0)
+                    WriteInfo();
                 Population.Cut(SurvivalCount);
                 Population.Crossover();
                 Population.Mutate(PercentageMutationChance);

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AlgorytmGenetyczny.Extensions
+namespace CoefficientsFinder.Extensions
 {
     public static class ByteExtension
     {
