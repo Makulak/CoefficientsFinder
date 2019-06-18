@@ -85,8 +85,7 @@ namespace CoefficientsFinder.Algorithm
 
             Population = new Population(new RandomProvider(), ExpectedDegreeOfPolynomial);
 
-            for (int i = 0; i < StartPopulationCount; i++)
-                Population.Create(StartPopulationCount);
+            Population.Create(StartPopulationCount);
         }
 
         public void Solve()
@@ -109,7 +108,7 @@ namespace CoefficientsFinder.Algorithm
             for (int i = 0; i < IterationThreshold; i++)
             {
                 Population.CalculateFitness(Points);
-                if(i%300 == 0)
+                if (i % 300 == 0)
                     WriteInfo();
                 Population.Cut(SurvivalCount);
                 Population.Crossover();
