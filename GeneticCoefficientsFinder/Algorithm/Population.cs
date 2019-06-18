@@ -103,7 +103,7 @@ namespace CoefficientsFinder.Algorithm
             BitArray bytesOne = poly1.GetAllCoefficientsInBytes();
             BitArray bytesTwo = poly2.GetAllCoefficientsInBytes();
 
-            for (int i = 0; i < bytesOne.Length; i++)
+            for (int i = 0; i < cutPosition; i++)
             {
                 bool bitOne = bytesOne[i];
                 bool bitTwo = bytesTwo[i];

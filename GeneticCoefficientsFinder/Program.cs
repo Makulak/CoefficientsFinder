@@ -14,8 +14,8 @@ namespace CoefficientsFinder
             solver.AddPoint(4,9);
 
             solver.SetMinimumRequiredDegreeOfPolynomial();
-            solver.StartPopulationCount = 10000;
-            solver.SurvivalCount = 100;
+            solver.StartPopulationCount = 400;
+            solver.SurvivalCount = 20;
             solver.IterationThreshold = 100000;
             solver.ExpectedDegreeOfPolynomial = 2;
             solver.PercentageMutationChance = 10;

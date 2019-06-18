@@ -115,10 +115,11 @@ namespace CoefficientsFinder.Algorithm
                 Population.Crossover();
                 Population.Mutate(PercentageMutationChance);
 
-                if (Population.FitnessForBestPolynomial(Points) < 0.05)
+                if (Population.FitnessForBestPolynomial(Points) < 0.03)
                 {
                     Console.WriteLine();
                     Console.WriteLine("==============================SUCCESS==============================");
+                    Console.WriteLine($"============================ITERATION: {i}=========================");
                     WriteInfo();
                     return;
                 }
