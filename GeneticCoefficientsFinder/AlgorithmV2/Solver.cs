@@ -118,10 +118,11 @@ namespace CoefficientsFinder.AlgorithmV2
 
                 if (_population.BestFittedPolynomial.Fitness < RequiredPolynomialFitness)
                 {
+                    Console.WriteLine($"=========== SOLUTION FOUND IN: {i} ==================");
                     WriteInfo();
                     return true;
                 }
-                if(i%100 == 0)
+                if(i%200 == 0)
                     WriteInfo();
 
                 _population.Cut(SurvivalCount);
@@ -135,12 +136,14 @@ namespace CoefficientsFinder.AlgorithmV2
 
         private void WriteInfo()
         {
+            Console.WriteLine($"===== Fitness: {_population.BestFittedPolynomial.Fitness} =====");
+
             foreach (var point in Points)
             {
                 Console.WriteLine($"X: {point.X}, Searched: {point.Y}, Found: {_population.BestFittedPolynomial.GetValue(point.X)}");
             }
             Console.WriteLine();
-            Console.WriteLine($"Polynomial: {_population.BestFittedPolynomial.ToString()}");
+            Console.WriteLine($"Polynomial: {_population.BestFittedPolynomial}");
             Console.WriteLine("====================================================");
         }
     }

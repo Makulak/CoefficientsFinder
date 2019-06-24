@@ -88,19 +88,37 @@ namespace CoefficientsFinder.AlgorithmV2
         private void CrossoverTwoPolynomials(Polynomial poly1, Polynomial poly2)
         {
             int cutPosition = _randomProvider.Next((_degreeOfPolynomial + 1) * sizeof(float) * 8);
+            bool fromBeginning = _randomProvider.Next(2) == 1;
 
             BitArray bytesOne = poly1.GetCoefficients();
             BitArray bytesTwo = poly2.GetCoefficients();
 
-            for (int i = 0; i < cutPosition; ++i)
+            if (fromBeginning)
             {
-                bool bitOne = bytesOne[i];
-                bool bitTwo = bytesTwo[i];
-
-                if (bitOne != bitTwo)
+                for (int i = 0; i < cutPosition; ++i)
                 {
-                    bytesOne[i] = bitTwo;
-                    bytesTwo[i] = bitOne;
+                    bool bitOne = bytesOne[i];
+                    bool bitTwo = bytesTwo[i];
+
+                    if (bitOne != bitTwo)
+                    {
+                        bytesOne[i] = bitTwo;
+                        bytesTwo[i] = bitOne;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = cutPosition-1; i >= 0; --i)
+                {
+                    bool bitOne = bytesOne[i];
+                    bool bitTwo = bytesTwo[i];
+
+                    if (bitOne != bitTwo)
+                    {
+                        bytesOne[i] = bitTwo;
+                        bytesTwo[i] = bitOne;
+                    }
                 }
             }
 
