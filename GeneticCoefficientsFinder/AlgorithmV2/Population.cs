@@ -38,7 +38,7 @@ namespace CoefficientsFinder.AlgorithmV2
 
             List.Clear();
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < count; ++i)
                 List.Add(new Polynomial(_randomProvider, _degreeOfPolynomial));
         }
 
@@ -75,12 +75,19 @@ namespace CoefficientsFinder.AlgorithmV2
 
         public void Cut(int survivalCount)
         {
-            List.OrderBy(poly => poly).ToList().RemoveRange(survivalCount, List.Count - survivalCount);
+            List = List.OrderBy(poly => poly).ToList();
+            List.RemoveRange(survivalCount, List.Count - survivalCount);
+        }
+
+        public void FillWithRandom(int count)
+        {
+            for (int i = 0; i < List.Count - count; ++i)
+                List.Add(new Polynomial(_randomProvider, _degreeOfPolynomial));
         }
 
         private void CrossoverTwoPolynomials(Polynomial poly1, Polynomial poly2)
         {
-            int cutPosition = _randomProvider.Next((_degreeOfPolynomial + 1) * sizeof(double) * 8);
+            int cutPosition = _randomProvider.Next((_degreeOfPolynomial + 1) * sizeof(float) * 8);
 
             BitArray bytesOne = poly1.GetCoefficients();
             BitArray bytesTwo = poly2.GetCoefficients();

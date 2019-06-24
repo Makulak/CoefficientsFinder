@@ -1,27 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 namespace CoefficientsFinder.AlgorithmV2
 {
-    public class Point : IComparer
+    public class Point : IComparable
     {
-        public double X { get; set; }
-        public double Y { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
 
-        public Point(double x, double y)
+        public Point(float x, float y)
         {
             X = x;
             Y = y;
         }
 
-        public int Compare(object a, object b)
+        public int CompareTo(object obj)
         {
-            Point p1 = a as Point;
-            Point p2 = b as Point;
-
-            if(p1 == null || p2 == null)
+            if (!(obj is Point p))
                 throw new WrongValueException("Wrong object to compare!");
 
-            return p1.X.CompareTo(p2.X);
+            return X.CompareTo(p.X);
         }
     }
 }

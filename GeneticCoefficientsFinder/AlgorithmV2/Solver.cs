@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CoefficientsFinder.Providers;
 
@@ -10,28 +11,19 @@ namespace CoefficientsFinder.AlgorithmV2
 
         public int IterationThreshold {
             get => _iterationThreshold;
-            set {
-                if (value < 1)
-                    _iterationThreshold = 1;
-            }
+            set => _iterationThreshold = value < 1 ? 1 : value;
         }
         private int _iterationThreshold;
 
         public int SurvivalCount {
             get => _survivalCount;
-            set {
-                if (value < 1)
-                    _survivalCount = 1;
-            }
+            set => _survivalCount = value < 1 ? 1 : value;
         }
         private int _survivalCount;
 
         public int StartPopulationCount {
             get => _startPopulationCount;
-            set {
-                if (value < 1)
-                    _startPopulationCount = 1;
-            }
+            set => _startPopulationCount = value < 1 ? 1 : value;
         }
         private int _startPopulationCount;
 
@@ -53,13 +45,15 @@ namespace CoefficientsFinder.AlgorithmV2
             set {
                 if (value < 0)
                     _expectedDegreeOfPolynomial = 0;
-                if (value > 10)
+                else if (value > 10)
                     _expectedDegreeOfPolynomial = 10;
+                else
+                    _expectedDegreeOfPolynomial = value;
             }
         }
         private int _expectedDegreeOfPolynomial;
 
-        public double PolynomialApproximationAccuracy { get; set; }
+        public double RequiredPolynomialFitness { get; set; }
 
         private Population _population;
 
@@ -68,13 +62,13 @@ namespace CoefficientsFinder.AlgorithmV2
             Points = new List<Point>();
 
             //Default values
-            IterationThreshold = 3000;
-            SurvivalCount = 20;
-            StartPopulationCount = 400;
+            IterationThreshold = 1000;
+            SurvivalCount = 5;
+            StartPopulationCount = 25;
             PercentageMutationChance = 10;
         }
 
-        public void AddPoint(double x, double y)
+        public void AddPoint(float x, float y)
         {
             AddPoint(new Point(x, y));
         }
@@ -118,21 +112,36 @@ namespace CoefficientsFinder.AlgorithmV2
             if (ExpectedDegreeOfPolynomial < GetMinimumRequiredDegreeOfPolynomial())
                 throw new WrongValueException("Degree of polynomial is less than minimum required degree");
 
-            for (int i = 0; i < IterationThreshold; i++)
+            for (int i = 0; i < IterationThreshold; ++i)
             {
                 _population.CalculateFitness(Points);
-                _population.Cut(SurvivalCount);
-                _population.Fill(StartPopulationCount);
-                _population.Crossover();
-                _population.Mutate(PercentageMutationChance);
 
-                if (Population.FitnessForBestPolynomial(Points) < PolynomialApproximationAccuracy)
+                if (_population.BestFittedPolynomial.Fitness < RequiredPolynomialFitness)
                 {
+                    WriteInfo();
                     return true;
                 }
+                if(i%100 == 0)
+                    WriteInfo();
+
+                _population.Cut(SurvivalCount);
+                _population.Crossover();
+                _population.FillWithRandom(StartPopulationCount);
+                _population.Mutate(PercentageMutationChance);
             }
 
             return false;
+        }
+
+        private void WriteInfo()
+        {
+            foreach (var point in Points)
+            {
+                Console.WriteLine($"X: {point.X}, Searched: {point.Y}, Found: {_population.BestFittedPolynomial.GetValue(point.X)}");
+            }
+            Console.WriteLine();
+            Console.WriteLine($"Polynomial: {_population.BestFittedPolynomial.ToString()}");
+            Console.WriteLine("====================================================");
         }
     }
 }

@@ -9,6 +9,7 @@ using CoefficientsFinder.Providers;
 
 namespace CoefficientsFinder.Algorithm
 {
+    [Obsolete]
     public class Polynomial
     {
         public List<double> Coefficients { get; private set; }

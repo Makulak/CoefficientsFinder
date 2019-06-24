@@ -1,5 +1,4 @@
 ﻿using System;
-using CoefficientsFinder.Algorithm;
 
 namespace CoefficientsFinder
 {
@@ -7,11 +6,17 @@ namespace CoefficientsFinder
     {
         static void Main(string[] args)
         {
-            Solver solver = new Solver();
+            //StartSolver1();
+            StartSolver2();
+        }
 
-            solver.AddPoint(-1,4);
-            solver.AddPoint(0,1);
-            solver.AddPoint(4,9);
+        public static void StartSolver1()
+        {
+            Algorithm.Solver solver = new Algorithm.Solver();
+
+            solver.AddPoint(-1, 4);
+            solver.AddPoint(0, 1);
+            solver.AddPoint(4, 9);
 
             solver.SetMinimumRequiredDegreeOfPolynomial();
             solver.StartPopulationCount = 400;
@@ -19,6 +24,28 @@ namespace CoefficientsFinder
             solver.IterationThreshold = 100000;
             solver.ExpectedDegreeOfPolynomial = 2;
             solver.PercentageMutationChance = 10;
+            solver.CreatePopulation();
+            Console.WriteLine("PopulationCreated\n=======================START========================\n");
+
+            solver.Solve();
+            Console.ReadKey();
+        }
+
+        public static void StartSolver2()
+        {
+            AlgorithmV2.Solver solver = new AlgorithmV2.Solver();
+
+            solver.AddPoint(-1, 4);
+            solver.AddPoint(0, 1);
+            solver.AddPoint(4, 9);
+
+            solver.SetMinimumRequiredDegreeOfPolynomial();
+            solver.StartPopulationCount = 400;
+            solver.SurvivalCount = 20;
+            solver.IterationThreshold = 100000;
+            solver.ExpectedDegreeOfPolynomial = 2;
+            solver.PercentageMutationChance = 7;
+            solver.RequiredPolynomialFitness = 0.01;
             solver.CreatePopulation();
             Console.WriteLine("PopulationCreated\n=======================START========================\n");
 

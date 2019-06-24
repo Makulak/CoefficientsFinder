@@ -8,6 +8,7 @@ using CoefficientsFinder.Providers;
 
 namespace CoefficientsFinder.Algorithm
 {
+    [Obsolete]
     public class Population
     {
         public List<Polynomial> List { get; private set; }

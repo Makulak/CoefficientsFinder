@@ -47,6 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlgorithmV2\Polynomial.cs" />
+    <Compile Include="AlgorithmV2\Population.cs" />
+    <Compile Include="AlgorithmV2\Position.cs" />
+    <Compile Include="AlgorithmV2\Solver.cs" />
     <Compile Include="Algorithm\Polynomial.cs" />
     <Compile Include="Algorithm\Population.cs" />
     <Compile Include="Extensions\BitArrayExtensions.cs" />

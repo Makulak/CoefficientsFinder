@@ -5,6 +5,7 @@ using CoefficientsFinder.Providers;
 
 namespace CoefficientsFinder.Algorithm
 {
+    [Obsolete]
     public class Solver
     {
         public List<Tuple<double, double>> Points { get; }
